@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib/fx/lib/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib/microstream/base.jar"/>
+	<classpathentry kind="lib" path="lib/microstream/persistence.binary.jar"/>
+	<classpathentry kind="lib" path="lib/microstream/persistence.jar"/>
+	<classpathentry kind="lib" path="lib/microstream/storage.embedded.configuration.jar"/>
+	<classpathentry kind="lib" path="lib/microstream/storage.embedded.jar"/>
+	<classpathentry kind="lib" path="lib/microstream/storage.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

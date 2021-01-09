@@ -4,10 +4,10 @@ import java.util.Collection;
 
 /**
  * Object that computes the Number of Children in Tree (NOC) {@link Metric} for a provided class.
- *
+ * <p>
  * The NOC refers to the number of direct subclasses of a given class and provides
  * a measure of the breadth of a class hierarchy.
- *
+ * <p>
  * A high NOC value denotes high reuse of a base class.
  */
 public class NOC extends Metric {
@@ -15,7 +15,8 @@ public class NOC extends Metric {
 
     /**
      * Constructs a new NOC instance.
-     * @param cls The class on which this metric will be calculated.
+     *
+     * @param cls     The class on which this metric will be calculated.
      * @param classes A {@link Collection} of classes that will be checked to see if they subclass <code>cls</code>.
      */
     public NOC(Class<?> cls, Collection<Class<?>> classes) {
@@ -25,10 +26,10 @@ public class NOC extends Metric {
 
     /**
      * Computes the Number of Children in Tree (NOC) {@link Metric} for <code>cls</code>.
-     *
+     * <p>
      * The NOC refers to the number of direct subclasses of a given class and provides
      * a measure of the breadth of a class hierarchy.
-     *
+     * <p>
      * The method will iterate over each class in <code>classes</code> and if one of the classes
      * is found to be a subclass of <code>cls</code>, the depth of <code>cls</code>'s inheritance
      * tree will be incremented by one.
@@ -39,16 +40,16 @@ public class NOC extends Metric {
     public Integer measure() {
         int depth = 0;
 
-		for (Class<?> c : classes) {
-			Class<?> spr = c.getSuperclass();
+        for (Class<?> c : classes) {
+            Class<?> spr = c.getSuperclass();
 
-			if (spr != null) {
-				if (spr.getName().equals(getCls().getName())) {
-					depth++;
-				}
-			}
-		}
+            if (spr != null) {
+                if (spr.getName().equals(getCls().getName())) {
+                    depth++;
+                }
+            }
+        }
 
-		return depth;
+        return depth;
     }
 }

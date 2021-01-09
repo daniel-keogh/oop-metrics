@@ -10,6 +10,7 @@ public abstract class Metric {
 
     /**
      * Constructs a new {@link Metric} instance.
+     *
      * @param cls The class to which this metric applies.
      */
     public Metric(Class<?> cls) {
@@ -18,6 +19,7 @@ public abstract class Metric {
 
     /**
      * Get the {@link Class} associated with this Metric object.
+     *
      * @return The class associated with this Metric object
      */
     public Class<?> getCls() {
@@ -26,6 +28,7 @@ public abstract class Metric {
 
     /**
      * Get the name of the class associated with this Metric object
+     *
      * @return The name of the class as a {@link String}
      */
     public String getClassName() {
@@ -34,6 +37,7 @@ public abstract class Metric {
 
     /**
      * Compute a value for this metric.
+     *
      * @return The result of the metric calculation.
      */
     public abstract Number measure();

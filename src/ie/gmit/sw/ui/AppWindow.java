@@ -20,123 +20,124 @@ import javafx.util.*;
 
 /**
  * Displays the application GUI window.
- *
+ * <p>
  * The object persistence database is initialised on startup, and shut down when the
  * application window is closed.
  */
 public class AppWindow extends Application {
-	private final ObservableList<Metric> metrics = FXCollections.observableArrayList();
-	private final JarProcessor jp = new JarProcessor();
+    private final ObservableList<Metric> metrics = FXCollections.observableArrayList();
+    private final JarProcessor jp = new JarProcessor();
 
-	@Override
-	public void init() {
-		System.out.println("[INFO] Initialising Metric Store...");
-		MetricStore.getInstance().init();
-	}
+    @Override
+    public void init() {
+        System.out.println("[INFO] Initialising Metric Store...");
+        MetricStore.getInstance().init();
+    }
 
-	@Override
-	public void stop() {
-		MetricStore.getInstance().shutDown();
-	}
+    @Override
+    public void stop() {
+        MetricStore.getInstance().shutDown();
+    }
 
-	@Override
-	public void start(Stage stage) {
-		stage.setTitle("GMIT - B.Sc. in Computing (Software Development)");
-		stage.setWidth(850);
-		stage.setHeight(600);
-			
-		stage.setOnCloseRequest((e) -> System.exit(0));
-		
-		VBox box = new VBox();
-		box.setPadding(new Insets(10));
-		box.setSpacing(8);
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle("GMIT - B.Sc. in Computing (Software Development)");
+        stage.setWidth(850);
+        stage.setHeight(600);
 
-		Scene scene = new Scene(box); 
-		stage.setScene(scene);
-		
-		box.getChildren().add(getFileChooserPane(stage));
-		box.getChildren().add(getTableView());
-		box.getChildren().add(getToolbar());
+        stage.setOnCloseRequest((e) -> System.exit(0));
 
-		stage.show();
-		stage.centerOnScreen();
-	}
+        VBox box = new VBox();
+        box.setPadding(new Insets(10));
+        box.setSpacing(8);
 
-	private TitledPane getFileChooserPane(Stage stage) {
-		VBox panel = new VBox();
+        Scene scene = new Scene(box);
+        stage.setScene(scene);
 
-		TextField textField = new TextField();
+        box.getChildren().add(getFileChooserPane(stage));
+        box.getChildren().add(getTableView());
+        box.getChildren().add(getToolbar());
 
-		FileChooser fc = new FileChooser();
-		fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JAR Files", "*.jar"));
+        stage.show();
+        stage.centerOnScreen();
+    }
 
-		Button btnOpen = new Button("Select File");
-		btnOpen.setOnAction(e -> {
-			File f = fc.showOpenDialog(stage);
+    private TitledPane getFileChooserPane(Stage stage) {
+        VBox panel = new VBox();
 
-			if (f != null) {
-				textField.setText(f.getAbsolutePath());
-			}
-		});
+        TextField textField = new TextField();
 
-		Button btnProcess = new Button("Process");
-		btnProcess.setOnAction(e -> {
-			metrics.clear();
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JAR Files", "*.jar"));
 
-			try {
-				metrics.addAll(jp.process(textField.getText()));
-			} catch (IOException ignored) { }
-		});
-		
-		ToolBar tb = new ToolBar();
-		tb.getItems().add(btnOpen);
-		tb.getItems().add(btnProcess);
+        Button btnOpen = new Button("Select File");
+        btnOpen.setOnAction(e -> {
+            File f = fc.showOpenDialog(stage);
 
-		panel.getChildren().add(textField);
-		panel.getChildren().add(tb);
+            if (f != null) {
+                textField.setText(f.getAbsolutePath());
+            }
+        });
 
-		TitledPane tp = new TitledPane("Select JAR File to Process", panel);
-		tp.setCollapsible(false);
-		return tp;
-	}
-	
-	private TableView<Metric> getTableView() {
-		TableView<Metric> tv = new TableView<>(metrics);
-		tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        Button btnProcess = new Button("Process");
+        btnProcess.setOnAction(e -> {
+            metrics.clear();
 
-		TableColumn<Metric, String> className = new TableColumn<>("Class");
-		className.setCellValueFactory(new Callback<>() {
-			public ObservableValue<String> call(CellDataFeatures<Metric, String> p) {
-				return new SimpleStringProperty(p.getValue().getClassName());
-			}
-		});
+            try {
+                metrics.addAll(jp.process(textField.getText()));
+            } catch (IOException ignored) {
+            }
+        });
 
-		TableColumn<Metric, String> metric = new TableColumn<>("Number of Children in Tree (NOC)");
-		metric.setCellValueFactory(new Callback<>() {
-			public ObservableValue<String> call(CellDataFeatures<Metric, String> p) {
-				return new SimpleStringProperty(p.getValue().measure().toString());
-			}
-		});
+        ToolBar tb = new ToolBar();
+        tb.getItems().add(btnOpen);
+        tb.getItems().add(btnProcess);
 
-		tv.getColumns().add(className);
-		tv.getColumns().add(metric);
-		return tv;
-	}
+        panel.getChildren().add(textField);
+        panel.getChildren().add(tb);
 
-	private ToolBar getToolbar() {
-		ToolBar toolBar = new ToolBar();
+        TitledPane tp = new TitledPane("Select JAR File to Process", panel);
+        tp.setCollapsible(false);
+        return tp;
+    }
 
-		Button btnQuit = new Button("Quit");
-		btnQuit.setOnAction(e -> System.exit(0));
-		toolBar.getItems().add(btnQuit);
+    private TableView<Metric> getTableView() {
+        TableView<Metric> tv = new TableView<>(metrics);
+        tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		Button btnDelete = new Button("Clear DB");
-		btnDelete.setOnAction(e -> {
-			System.out.println("[INFO] Clearing Metric Store...");
-			MetricStore.getInstance().clear();
-		});
-		toolBar.getItems().add(btnDelete);
+        TableColumn<Metric, String> className = new TableColumn<>("Class");
+        className.setCellValueFactory(new Callback<>() {
+            public ObservableValue<String> call(CellDataFeatures<Metric, String> p) {
+                return new SimpleStringProperty(p.getValue().getClassName());
+            }
+        });
 
-		return toolBar;
-	}
+        TableColumn<Metric, String> metric = new TableColumn<>("Number of Children in Tree (NOC)");
+        metric.setCellValueFactory(new Callback<>() {
+            public ObservableValue<String> call(CellDataFeatures<Metric, String> p) {
+                return new SimpleStringProperty(p.getValue().measure().toString());
+            }
+        });
+
+        tv.getColumns().add(className);
+        tv.getColumns().add(metric);
+        return tv;
+    }
+
+    private ToolBar getToolbar() {
+        ToolBar toolBar = new ToolBar();
+
+        Button btnQuit = new Button("Quit");
+        btnQuit.setOnAction(e -> System.exit(0));
+        toolBar.getItems().add(btnQuit);
+
+        Button btnDelete = new Button("Clear DB");
+        btnDelete.setOnAction(e -> {
+            System.out.println("[INFO] Clearing Metric Store...");
+            MetricStore.getInstance().clear();
+        });
+        toolBar.getItems().add(btnDelete);
+
+        return toolBar;
+    }
 }

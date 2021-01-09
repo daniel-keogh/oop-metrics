@@ -22,12 +22,14 @@ public interface Store<T> {
 
     /**
      * Save an object to the object store.
+     *
      * @param t the object to save.
      */
     void add(T t);
 
     /**
      * Save a {@link Collection} of objects to the object store.
+     *
      * @param ts the objects to add.
      */
     void addAll(Collection<? extends T> ts);
@@ -39,6 +41,7 @@ public interface Store<T> {
 
     /**
      * Gets a {@link Collection} of all the objects that meet the given predicate.
+     *
      * @param predicate A statement that if true, will result in an object being included in the returned collection.
      * @return A collection of objects that satisfy the predicate.
      */
